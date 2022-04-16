@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-const url = "https://go.dev/"
+const url = "https://www.tic.com/index.html"
 
 func main() {
 
