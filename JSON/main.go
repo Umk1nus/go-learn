@@ -15,6 +15,7 @@ type User struct {
 
 func main() {
 	jsonCode()
+	decodeJSON()
 }
 
 func jsonCode() {
@@ -29,6 +30,30 @@ func jsonCode() {
 
 	checkErrNil(err)
 	fmt.Printf("%s\n", finalJSON)
+}
+
+func decodeJSON() {
+	jsonDataFromWeb := []byte(`
+	{
+		"name": "Ilya",
+		"lastName": "Shimaev",
+		"age": 21,
+		"nickname": "Umk1nus",
+		"stack": ["js", "vue", "go", "html", "css"]
+	}
+`)
+
+	var userItem User
+
+	checkValid := json.Valid(jsonDataFromWeb)
+
+	if checkValid {
+		fmt.Println("JSON valid")
+		json.Unmarshal(jsonDataFromWeb, &userItem)
+		fmt.Printf("%#v\n", userItem)
+	} else {
+		fmt.Println("JSON not valid")
+	}
 }
 
 func checkErrNil(err error) {
