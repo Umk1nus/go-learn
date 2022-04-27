@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
 )
 
@@ -30,6 +31,21 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 func getAllCourses(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(courses)
+}
+
+func getOneCourse(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	params := mux.Vars(r)
+
+	for _, course := range courses {
+		if course.CourseId == params["id"] {
+			json.NewEncoder(w).Encode(course)
+			return
+		}
+	}
+	json.NewEncoder(w).Encode("No course")
+	return
 }
 
 func main() {
