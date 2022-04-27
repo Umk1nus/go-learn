@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -103,5 +104,17 @@ func deleteOneCourse(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	r := mux.NewRouter()
 
+	courses = append(courses, Course{CourseId: "2", CourseName: "VueJs", CoursePrice: 300, Author: &Author{Fullname: "Ilya Shimaev", Website: "github.com/Umk1nus"}})
+	courses = append(courses, Course{CourseId: "6", CourseName: "ReactJs", CoursePrice: 400, Author: &Author{Fullname: "Anton Smirnov", Website: "github.com/toxanski"}})
+
+	r.HandleFunc("/", serveHome).Methods("GET")
+	r.HandleFunc("/courses", getAllCourses).Methods("GET")
+	r.HandleFunc("/courses/course/{id}", getOneCourse).Methods("GET")
+	r.HandleFunc("/courses/course", createOneCourse).Methods("POST")
+	r.HandleFunc("/courses/course/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/courses/course/{id}", deleteOneCourse).Methods("DELETE")
+
+	log.Fatal(http.ListenAndServe(":4000", r))
 }
