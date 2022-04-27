@@ -1,4 +1,4 @@
-module github.com/Umk1nus/go-learn/modules
+module github.com/Umk1nus/go-learn/API
 
 go 1.18
 
