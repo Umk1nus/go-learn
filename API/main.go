@@ -3,7 +3,10 @@ package main
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"math/rand"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 type Course struct {
@@ -21,7 +24,7 @@ type Author struct {
 var courses []Course
 
 func (c *Course) isEmpty() bool {
-	return c.CourseId == "" && c.CourseName == ""
+	return c.CourseName == ""
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
@@ -46,6 +49,57 @@ func getOneCourse(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode("No course")
 	return
+}
+
+func createOneCourse(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Body == nil {
+		json.NewEncoder(w).Encode("Send some data")
+	}
+	var course Course
+
+	_ = json.NewDecoder(r.Body).Decode(&course)
+
+	if course.isEmpty() {
+		json.NewEncoder(w).Encode("No data")
+		return
+	}
+	rand.Seed(time.Now().UnixNano())
+	course.CourseId = strconv.Itoa(rand.Intn(100))
+	courses = append(courses, course)
+	json.NewEncoder(w).Encode(course)
+	return
+}
+
+func updateOneCourse(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+
+	for index, course := range courses {
+		if course.CourseId == params["id"] {
+			courses = append(courses[:index], courses[index+1:]...)
+			var course Course
+			_ = json.NewDecoder(r.Body).Decode(&course)
+			course.CourseId = params["id"]
+			courses = append(courses, course)
+			json.NewEncoder(w).Encode(course)
+			return
+		}
+	}
+}
+
+func deleteOneCourse(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+
+	for index, course := range courses {
+		if course.CourseId == params["id"] {
+			courses = append(courses[:index], courses[index+1:]...)
+			break
+		}
+	}
+
 }
 
 func main() {
