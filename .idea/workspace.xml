@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2cef2213-210d-438b-ba2c-a0f0bdc44e0c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/mongoAPI/model/models.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mongoAPI/controller/controller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongoAPI/model/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/mongoAPI/model/models.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
